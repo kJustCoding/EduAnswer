@@ -1,7 +1,8 @@
-from typing import get_protocol_members
 from curl_cffi import requests
+import os
 import customtkinter as tk
-from customtkinter import END
+from google import genai
+from google.genai import types
 
 uPassFromGUI,uNameFromGUI,urlFromGUI="","",""
 
@@ -191,6 +192,7 @@ def getTokens(loginPayload,verbose=False):# Function to get session XSRF-TOKEN, 
 
 
 def getUserCredentialsAndAddToHeader(forceRewrite=False,verbose=False):# Function to get user credentials, checks validity, adds to request header and saves to file
+
     global loginPayload
     uName,uPass="",""
     try: # If credentials file is found, and credentials are valid, assign the credentials to the login payload
@@ -248,8 +250,33 @@ def getUrlFromGUI():
     root.wait_variable(urlEntered)
     return urlFromGUI
 
-def getAPIKeyFromGUI():
-    pass
+def getAPIKey():
+    global loginPayload
+    try:
+        credFile= open("educakeCredentials.txt","r")
+
+        path=os.path.abspath(credFile.name)
+
+        print(path)
+
+
+        for i,line in enumerate(credFile, start=1):
+            if i==3:
+                APIKey=line.strip('\n')
+                break
+        credFile.close()
+
+    except:
+        print("No previous Gemini API Key was found...\n")
+
+        APIKey=int(input("Please read the instructions for getting an API key on the Github page, then paste your API key here:\t"))
+
+        credFile=open("educakeCredentials.txt","w")
+        uName=loginPayload["username"]
+        uPass=loginPayload["password"]
+        
+        credFile.write(f"{uName}\n{uPass}\n{APIKey}")
+
 
 confirmButton.configure(command=rootConfirmBtn)
 
@@ -315,7 +342,9 @@ def fetchQuizAnswers(verbose=False):
 
 
 # Run program
-fetchQuizAnswers(verbose=True)
+#fetchQuizAnswers(verbose=True)
+
+getAPIKey()
 
 # Continue GUI loop
 root.mainloop()
