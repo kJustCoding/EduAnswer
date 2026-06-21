@@ -252,6 +252,8 @@ def getUrlFromGUI():
 
 def getAPIKey():
     global loginPayload
+
+    APIKey='None'
     try:
         credFile= open("educakeCredentials.txt","r")
 
@@ -266,16 +268,35 @@ def getAPIKey():
                 break
         credFile.close()
 
+        if APIKey=='None':
+            hi=1/0
+
+        print(APIKey)
+
     except:
         print("No previous Gemini API Key was found...\n")
 
-        APIKey=int(input("Please read the instructions for getting an API key on the Github page, then paste your API key here:\t"))
+        APIKey=str(input("Please read the instructions for getting an API key on the Github page, then paste your API key here:\t"))
 
         credFile=open("educakeCredentials.txt","w")
         uName=loginPayload["username"]
         uPass=loginPayload["password"]
-        
+
         credFile.write(f"{uName}\n{uPass}\n{APIKey}")
+        
+        geminiClient=genai.Client(api_key=APIKey)
+        
+        try:
+            response = geminiClient.models.generate_content(
+                model="gemini-2.5-flash",
+                contents="Return the word 'hello'. Do not add anything else"
+            )
+
+        except:
+            print("API Key is invalid, read through the github page instructions and paste in a valid API key")
+            getAPIKey()
+
+    return APIKey
 
 
 confirmButton.configure(command=rootConfirmBtn)
@@ -325,14 +346,40 @@ def fetchQuizAnswers(verbose=False):
 
     print(questions)
 
+    questionType=["",""]
+
     for i in questions.items():
 
         curQuestionText=i[1]['question']
         curQuestionImage=i[1]['image']
-        
-        geminiPayload.append([curQuestionText,(curQuestionImage)])
+        curQuestionChoices="Free answer, no choices"
+
+        isChoice=False
+
+        try:
+            curQuestionChoices=i[1]['choices']
+            isChoice=True
+        except:
+            isChoice=False
+
+
+        if curQuestionImage!=None:
+            questionType[0]="Image"
+        else:
+            questionType[0]="Text"
+
+        if isChoice:
+            questionType[1]="Choice"
+        else:
+            questionType[1]="Free Answer"
+
+        geminiPayload.append([questionType,curQuestionText,curQuestionImage])
+
+        print(questionType)
 
     print(f"\n\n\n\n\n{geminiPayload}")
+
+    #APIKey=getAPIKey()
 
 
 
@@ -342,9 +389,7 @@ def fetchQuizAnswers(verbose=False):
 
 
 # Run program
-#fetchQuizAnswers(verbose=True)
-
-getAPIKey()
+fetchQuizAnswers(verbose=True)
 
 # Continue GUI loop
 root.mainloop()
