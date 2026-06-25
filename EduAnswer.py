@@ -346,9 +346,12 @@ def fetchQuizAnswers(verbose=False):
 
     print(questions)
 
-    questionType=["",""]
+    questionType=["","",""]
 
     for i in questions.items():
+
+        questionType=["","",""]
+
 
         curQuestionText=i[1]['question']
         curQuestionImage=i[1]['image']
@@ -370,16 +373,77 @@ def fetchQuizAnswers(verbose=False):
 
         if isChoice:
             questionType[1]="Choice"
+            questionType[2]=curQuestionChoices
         else:
             questionType[1]="Free Answer"
+            questionType[2]="None"
 
-        geminiPayload.append([questionType,curQuestionText,curQuestionImage])
+        #print(questionType)
+        #geminiPayload.append([questionType,curQuestionText,curQuestionImage])
 
-        print(questionType)
+        print("Before append:", questionType, id(questionType))
+
+        geminiPayload.append([
+            questionType,
+            curQuestionText,
+            curQuestionImage
+        ])
+
+        print("Stored:", geminiPayload[-1][0], id(geminiPayload[-1][0]))
+
 
     print(f"\n\n\n\n\n{geminiPayload}")
 
-    #APIKey=getAPIKey()
+    geminiPrompt= f"""
+        You are a GCSE and A-Level tutor.
+
+        The Question Data that you are being sent are in the form:
+
+        [
+            [[question_reference_type, question_answer_type, choices_if_applicable],question_text, image_url],
+            ...
+        ]
+
+        If question_reference_type is 'Image', you must view the image at the url provided at image_url as well as reading the text to answer the question.
+
+        If question_reference_type is 'Text' then there is no image needed for the question and you must answer the question using only the text provided.
+
+        If question_answer_type is 'Choice' then you must provide the correct answer choice for the question, with these choices listed in choices_if_applicable
+
+        If question_answer_type is 'Free Answer' then you must write the correct answer. ONLY PROVIDE THE ANSWER, DO NOT GIVE REASONING. YOUR ANSWER MUST BE AS SHORT AS POSSIBLE WHILE OBEYING QUESTION CONDITIONS
+
+
+        You must answer all questions, considering the previous stated rules and requirements, and send the answers back in this JSON format:
+
+        [
+
+            {{
+            "question_number",
+            "answer"
+            }},
+
+            ...
+    
+        ]
+
+        Question data:
+        {geminiPayload}
+        """
+
+    APIKey=getAPIKey()
+
+    print(APIKey)
+    
+    geminiClient=genai.Client(api_key=APIKey)
+
+    geminiClientResponse=geminiClient.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=geminiPrompt
+    )
+
+    print(geminiClientResponse)
+
+
 
 
 
