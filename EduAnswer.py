@@ -1,4 +1,5 @@
 from curl_cffi import requests
+import json
 import os
 import customtkinter as tk
 from google import genai
@@ -250,6 +251,17 @@ def getUrlFromGUI():
     root.wait_variable(urlEntered)
     return urlFromGUI
 
+def addEntryToGUI(entry,cNumOfEntries):
+    newQuestionFrame=tk.CTkFrame(scrollableArea,width=360,border_color='purple',border_width=1,corner_radius=30)
+
+    newQuestionLabel=tk.CTkLabel(newQuestionFrame,width=360,text=entry,fg_color="transparent",anchor="w",padx=15,corner_radius=30)
+    
+    newQuestionFrame.pack(pady=2)
+    newQuestionLabel.pack()
+    searchQuestionLabel.configure(text=f"There are {cNumOfEntries} questions in this quiz.{"".join([" " for i in range(3-len(str(cNumOfEntries+1)))])}Search for question ")
+    searchQuestionLabel.bind("<KeyRelease>",searchForAnswer)
+    root.update()
+
 def getAPIKey():
     global loginPayload
 
@@ -441,7 +453,15 @@ def fetchQuizAnswers(verbose=False):
         contents=geminiPrompt
     )
 
-    print(geminiClientResponse)
+    geminiClientResponseAsText=(geminiClientResponse.text).replace("```json", "").replace("```","").strip()
+
+    answersDict=json.loads(geminiClientResponseAsText)
+
+
+    for i in answersDict:
+        addEntryToGUI(i,12)
+
+
 
 
 
