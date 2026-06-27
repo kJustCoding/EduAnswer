@@ -32,8 +32,8 @@ confirmButton=tk.CTkButton(urlEntryAndButton,width=75,corner_radius=30,border_co
 
 searchQuestionLabel=tk.CTkLabel(searchQuestionEntryAndButton,width=300,text="No questions found. Enter a valid URL above first.")
 searchQuestionEntry=tk.CTkEntry(searchQuestionEntryAndButton,width=50,height=15,corner_radius=30,border_color="purple",border_width=1)
-searchAnswerLabelBorder=tk.CTkFrame(root,width=369,corner_radius=30,border_color="purple",border_width=2,fg_color="purple")
-searchAnswerLabel=tk.CTkLabel(searchAnswerLabelBorder,width=365,corner_radius=30,text="",fg_color="gray20")
+searchAnswerLabelBorder=tk.CTkFrame(root,width=300,corner_radius=30,border_color="purple",border_width=2)
+searchAnswerLabel=tk.CTkLabel(searchAnswerLabelBorder,height=25,width=350,corner_radius=30,text="",fg_color="gray20")
 
 scrollableAreaBorder=tk.CTkFrame(root,width=369,height=354,border_color="purple",border_width=2,fg_color="purple")
 scrollableArea=tk.CTkScrollableFrame(scrollableAreaBorder,fg_color="gray20",width=365,height=350,scrollbar_button_hover_color="purple")
@@ -252,15 +252,18 @@ def getUrlFromGUI():
     return urlFromGUI
 
 def addEntryToGUI(entry,cNumOfEntries):
-    newQuestionFrame=tk.CTkFrame(scrollableArea,width=360,border_color='purple',border_width=1,corner_radius=30)
+    newQuestionFrame=tk.CTkFrame(scrollableArea,width=360,height=35,border_color='purple',fg_color="gray20",border_width=2,corner_radius=30)
 
-    newQuestionLabel=tk.CTkLabel(newQuestionFrame,width=360,text=entry,fg_color="transparent",anchor="w",padx=15,corner_radius=30)
+    newQuestionLabel=tk.CTkLabel(newQuestionFrame,width=340,text=entry,fg_color="transparent",bg_color="transparent",anchor="w",padx=15)
     
+    newQuestionFrame.pack_propagate(False)
     newQuestionFrame.pack(pady=2)
-    newQuestionLabel.pack()
+    newQuestionLabel.pack(expand=True)
     searchQuestionLabel.configure(text=f"There are {cNumOfEntries} questions in this quiz.{"".join([" " for i in range(3-len(str(cNumOfEntries+1)))])}Search for question ")
     searchQuestionLabel.bind("<KeyRelease>",searchForAnswer)
     root.update()
+    print(f"Frame: {newQuestionFrame.winfo_width()}x{newQuestionFrame.winfo_height()}")
+    print(f"Label: {newQuestionLabel.winfo_width()}x{newQuestionLabel.winfo_height()}")
 
 def getAPIKey():
     global loginPayload
@@ -441,7 +444,7 @@ def fetchQuizAnswers(verbose=False):
         Question data:
         {geminiPayload}
         """
-
+    
     APIKey=getAPIKey()
 
     print(APIKey)
@@ -460,6 +463,7 @@ def fetchQuizAnswers(verbose=False):
 
     for i in answersDict:
         addEntryToGUI(i,12)
+    
 
 
 
