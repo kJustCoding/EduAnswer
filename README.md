@@ -1,6 +1,6 @@
 # EduAnswer V1.0.0- The continuation of EduFetch
 
-### ℹ️ A Python-based GUI that fetches and displays Educake answers
+### ℹ️ A Python-based GUI that answers and displays Educake answers
 ***This repository contains 2 main versions of the code:***
 <br>
 - The original Python file *(commented and documented for easy understanding and addition)*
@@ -8,6 +8,7 @@
 
   * Windows
   * Linux *(Linux executable file provided, so you might want to convert it to a .desktop)*
+  * MacOS ***(Coming soon 🔜)*** 
 <br>
 
 ## 🛠️ Requirements
@@ -21,6 +22,7 @@
 ### **Prerequisites *(for Application)***
 - Internet connection
 - Permissions to run file
+- A valid Google Gemini API key (explainded in installation)
 
 ### **Program requirements**
 - URL to the quiz that you want to access (must not end in /true, remove the /true in that case)
