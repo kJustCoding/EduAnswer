@@ -6,6 +6,7 @@ from google import genai
 from google.genai import types
 
 uPassFromGUI,uNameFromGUI,urlFromGUI="","",""
+answersDict={}
 
 #----------
 # FRONT-END
@@ -114,7 +115,7 @@ promptConfirmBtn.configure(command=promptConfirmFunc)
 
 def searchForAnswer(event=None):
     number=searchQuestionEntry.get()
-    global correctAnswersDict
+    global answersDict
     try:searchAnswerLabel.configure(text=correctAnswersDict[f"Q{number}"])
     except:searchAnswerLabel.configure(text="Question number could not be found...")
 
@@ -252,9 +253,11 @@ def getUrlFromGUI():
     return urlFromGUI
 
 def addEntryToGUI(entry,cNumOfEntries):
-    newQuestionFrame=tk.CTkFrame(scrollableArea,width=360,height=35,border_color='purple',fg_color="gray20",border_width=2,corner_radius=30)
+    global answersDict
 
-    newQuestionLabel=tk.CTkLabel(newQuestionFrame,width=340,text=entry,fg_color="transparent",bg_color="transparent",anchor="w",padx=15)
+    newQuestionFrame=tk.CTkFrame(scrollableArea,width=360,height=28,border_color='purple',fg_color="gray20",border_width=2,corner_radius=30)
+
+    newQuestionLabel=tk.CTkLabel(newQuestionFrame,width=340,height=23,text=entry,fg_color="transparent",bg_color="transparent",anchor="w",padx=15)
     
     newQuestionFrame.pack_propagate(False)
     newQuestionFrame.pack(pady=2)
@@ -262,8 +265,6 @@ def addEntryToGUI(entry,cNumOfEntries):
     searchQuestionLabel.configure(text=f"There are {cNumOfEntries} questions in this quiz.{"".join([" " for i in range(3-len(str(cNumOfEntries+1)))])}Search for question ")
     searchQuestionLabel.bind("<KeyRelease>",searchForAnswer)
     root.update()
-    print(f"Frame: {newQuestionFrame.winfo_width()}x{newQuestionFrame.winfo_height()}")
-    print(f"Label: {newQuestionLabel.winfo_width()}x{newQuestionLabel.winfo_height()}")
 
 def getAPIKey():
     global loginPayload
@@ -285,11 +286,16 @@ def getAPIKey():
 
         if APIKey=='None':
             hi=1/0
+        
+        geminiClient=genai.Client(api_key=APIKey)
+        response = geminiClient.models.generate_content(
+                model="gemini-3.1-flash-lite",
+                contents="Return the word 'hello'. Do not add anything else"
+            )
 
-        print(APIKey)
 
     except:
-        print("No previous Gemini API Key was found...\n")
+        print("No previous valid Gemini API Key was found...\n")
 
         APIKey=str(input("Please read the instructions for getting an API key on the Github page, then paste your API key here:\t"))
 
@@ -303,7 +309,7 @@ def getAPIKey():
         
         try:
             response = geminiClient.models.generate_content(
-                model="gemini-2.5-flash",
+                model="gemini-3.1-flash-lite",
                 contents="Return the word 'hello'. Do not add anything else"
             )
 
@@ -321,7 +327,8 @@ confirmButton.configure(command=rootConfirmBtn)
 #---------
 
 def fetchQuizAnswers(verbose=False):
-    global correctAnswersDict
+    global answersDict
+
 
     geminiPayload=[]
 
@@ -404,9 +411,6 @@ def fetchQuizAnswers(verbose=False):
             curQuestionImage
         ])
 
-        print("Stored:", geminiPayload[-1][0], id(geminiPayload[-1][0]))
-
-
     print(f"\n\n\n\n\n{geminiPayload}")
 
     geminiPrompt= f"""
@@ -444,6 +448,7 @@ def fetchQuizAnswers(verbose=False):
         Question data:
         {geminiPayload}
         """
+
     
     APIKey=getAPIKey()
 
@@ -459,12 +464,17 @@ def fetchQuizAnswers(verbose=False):
     geminiClientResponseAsText=(geminiClientResponse.text).replace("```json", "").replace("```","").strip()
 
     answersDict=json.loads(geminiClientResponseAsText)
-
+    
+    cNumOfEntries=0
 
     for i in answersDict:
-        addEntryToGUI(i,12)
+        cNumOfEntries+=1
+        textForEntry=f"Q{i['question_number']}.) {i['answer']}"
+        addEntryToGUI(textForEntry,cNumOfEntries)
     
 
+    #for i in range(1,20):
+    #   addEntryToGUI(i,12)
 
 
 
