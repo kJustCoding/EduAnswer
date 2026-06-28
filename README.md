@@ -1,6 +1,12 @@
-# EduAnswer V1.0.0- The continuation of EduFetch
-
+# EduAnswer V1.0.0
 ### ℹ️ A Python-based GUI that answers and displays Educake answers
+
+
+| ***Windows*** | ***Linux*** |
+| :---: | :---: |
+| ![Alt Text 1](images/EduAnswerOnWindows.png) | ![Working on it...](images/ScreenshotOnLinux.png) |
+
+
 ***This repository contains 2 main versions of the code:***
 <br>
 - The original Python file *(commented and documented for easy understanding and addition)*
@@ -16,6 +22,7 @@
 ### **Prerequisites *(for Python file)***
 - Python 3.12+
 - External PIP library 'curl_cffi' installed
+- External PIP library 'google-genai' installed
 - External PIP library 'customtkinter' installed
 - Internet connection
 
@@ -81,6 +88,8 @@
 - GET and POST request methods work
 - Clients get a session-token (JWT) from the website
 - JSON files are formatted, sent and recieved
+- AI APIs calls work/are formatted
+- HOw to parse API responses
 #### It is not my intention for this program to be used as a way to "cheat" on Educake quizzes, but rather as an easy way to understand how websites, especially logins and submittals, truly work. What YOU do with this code is YOUR choice, not mine.
 <br>
 
@@ -89,8 +98,8 @@
 #### This program does not edit Educake's servers, complete quizzes for you or perform any actions that could be deemed as 'hacking' in any way. All the answers stored on Educake are openly available to be accessed via their API, and this program merely bypasses the GUI to get the answers without logging questions as "incorrectly answered".
 <br>
 
-### ***Link to profile: https://github.com/krishnaLikesToCode***
-### ***Link to my main repo: https://github.com/krishnaLikesToCode](https://github.com/krishnaLikesToCode/personal-coding-projects/tree/main***
+### ***Link to profile: https://github.com/kJustCoding***
+### ***Link to my main repo: https://github.com/kJustCoding](https://github.com/kJustCoding/personal-coding-projects/tree/main***
 
 
 
