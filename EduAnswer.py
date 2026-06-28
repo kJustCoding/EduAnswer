@@ -6,7 +6,6 @@ from google import genai
 from google.genai import types
 
 uPassFromGUI,uNameFromGUI,urlFromGUI="","",""
-answersDict={}
 
 #----------
 # FRONT-END
@@ -22,7 +21,7 @@ urlEntered=tk.BooleanVar(value=False)
 urlEntryAndButton=tk.CTkFrame(root,width=375,fg_color="transparent")
 searchQuestionEntryAndButton=tk.CTkFrame(root,width=375,fg_color="transparent")
 
-nameLabel=tk.CTkLabel(root,width=350,height=1,corner_radius=30,text="Welcome to EduFetch",font=("default",23,"bold"))
+nameLabel=tk.CTkLabel(root,width=350,height=1,corner_radius=30,text="Welcome to EduAnswer",font=("default",23,"bold"))
 
 writeLabel=tk.CTkLabel(root,width=350,height=40,text="Enter the Educake quiz URL...")
 blankSpace=tk.CTkLabel(root,height=10,text="\n")
@@ -116,7 +115,7 @@ promptConfirmBtn.configure(command=promptConfirmFunc)
 def searchForAnswer(event=None):
     number=searchQuestionEntry.get()
     global answersDict
-    try:searchAnswerLabel.configure(text=correctAnswersDict[f"Q{number}"])
+    try:searchAnswerLabel.configure(text=(result:= next((i["answer"] for i in answersDict if i["question_number"] == int(number)), None)))
     except:searchAnswerLabel.configure(text="Question number could not be found...")
 
 
@@ -150,7 +149,7 @@ headers = {
 }
 
 # Define dictionary that will contain correctAnswers of quiz
-correctAnswersDict={}
+answersDict={}
 
 # Create session impersonating a chrome browser request
 loginSession=requests.Session(impersonate="chrome120")
@@ -263,7 +262,7 @@ def addEntryToGUI(entry,cNumOfEntries):
     newQuestionFrame.pack(pady=2)
     newQuestionLabel.pack(expand=True)
     searchQuestionLabel.configure(text=f"There are {cNumOfEntries} questions in this quiz.{"".join([" " for i in range(3-len(str(cNumOfEntries+1)))])}Search for question ")
-    searchQuestionLabel.bind("<KeyRelease>",searchForAnswer)
+    searchQuestionEntry.bind("<KeyRelease>",searchForAnswer)
     root.update()
 
 def getAPIKey():
@@ -309,7 +308,7 @@ def getAPIKey():
         
         try:
             response = geminiClient.models.generate_content(
-                model="gemini-3.1-flash-lite",
+                model="gemini-3.5-flash",
                 contents="Return the word 'hello'. Do not add anything else"
             )
 
@@ -437,8 +436,8 @@ def fetchQuizAnswers(verbose=False):
         [
 
             {{
-            "question_number",
-            "answer"
+            "question_number":1,
+            "answer": "answer_text_here"
             }},
 
             ...
@@ -463,6 +462,8 @@ def fetchQuizAnswers(verbose=False):
 
     geminiClientResponseAsText=(geminiClientResponse.text).replace("```json", "").replace("```","").strip()
 
+    print(f"\n\n\n\n\n\n {geminiClientResponseAsText}")
+
     answersDict=json.loads(geminiClientResponseAsText)
     
     cNumOfEntries=0
@@ -474,7 +475,7 @@ def fetchQuizAnswers(verbose=False):
     
 
     #for i in range(1,20):
-    #   addEntryToGUI(i,12)
+        #addEntryToGUI(i,12)
 
 
 
