@@ -14,7 +14,7 @@ uPassFromGUI,uNameFromGUI,urlFromGUI="","",""
 # Root window
 root=tk.CTk()
 root.geometry("400x620")
-root.title("EduFetch v1.0.1")
+root.title("EduAnswer v1.0.1")
 
 urlEntered=tk.BooleanVar(value=False)
 
