@@ -57,6 +57,26 @@ uPassEntry=tk.CTkEntry(userPassSect,text_color="white",fg_color="gray20",border_
 uPassLabel=tk.CTkLabel(userPassSect,text="Password")
 promptConfirmBtn=tk.CTkButton(promptWindow,fg_color="gray20",border_color="purple",border_width=2,width=50,text="Confirm",hover_color="purple")
 
+# API key prompt window
+
+apiKeyWindow=tk.CTkToplevel()
+apiKeyWindow.geometry("300x100")
+apiKeyWindow.title("")
+apiKeyEntered=tk.BooleanVar(value=False)
+
+apiKeyEntrySect=tk.CTkFrame(apiKeyWindow, width=475, fg_color="transparent")
+keyWindowLabel=tk.CTkLabel(apiKeyWindow, text="Paste your Gemini API key here (read Github guide):", font=("default",15,"bold"))
+apiKeyLabel=tk.CTkLabel(apiKeyEntrySect, text_color="white", text="API Key")
+keyWindowsEntry=tk.CTkEntry(apiKeyEntrySect, text_color="white",fg_color="gray20",border_color="purple", border_width=2,width=130)
+
+keyWindowLabel.pack(pady=7)
+apiKeyEntrySect.pack()
+apiKeyLabel.pack(side="left",pady=7)
+keyWindowsEntry.pack(side="right",pady=7)
+
+
+apiKeyWindow.deiconify()
+
 # Prompt window packing
 promptWriteLabel.pack(pady=7)
 userNameSect.pack()
