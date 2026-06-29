@@ -5,7 +5,7 @@ import customtkinter as tk
 from google import genai
 from google.genai import types
 
-uPassFromGUI,uNameFromGUI,urlFromGUI="","",""
+uPassFromGUI,uNameFromGUI,urlFromGUI,apiKeyFromGUI="","","",""
 
 #----------
 # FRONT-END
@@ -60,22 +60,23 @@ promptConfirmBtn=tk.CTkButton(promptWindow,fg_color="gray20",border_color="purpl
 # API key prompt window
 
 apiKeyWindow=tk.CTkToplevel()
-apiKeyWindow.geometry("300x100")
+apiKeyWindow.geometry("300x130")
 apiKeyWindow.title("")
 apiKeyEntered=tk.BooleanVar(value=False)
 
 apiKeyEntrySect=tk.CTkFrame(apiKeyWindow, width=475, fg_color="transparent")
-keyWindowLabel=tk.CTkLabel(apiKeyWindow, text="Paste your Gemini API key here (read Github guide):", font=("default",15,"bold"))
-apiKeyLabel=tk.CTkLabel(apiKeyEntrySect, text_color="white", text="API Key")
+keyWindowLabel=tk.CTkLabel(apiKeyWindow, text="Gemini API key (read Github page):", font=("default",15,"bold"))
+apiKeyLabel=tk.CTkLabel(apiKeyEntrySect, text_color="white", text="API Key   ")
 keyWindowsEntry=tk.CTkEntry(apiKeyEntrySect, text_color="white",fg_color="gray20",border_color="purple", border_width=2,width=130)
+keyWindowsPromptConfirmBtn=tk.CTkButton(apiKeyWindow,fg_color="gray20",border_color="purple",border_width=2,width=50,text="Confirm",hover_color="purple")
 
+# API key prompt window packing
 keyWindowLabel.pack(pady=7)
 apiKeyEntrySect.pack()
 apiKeyLabel.pack(side="left",pady=7)
 keyWindowsEntry.pack(side="right",pady=7)
+keyWindowsPromptConfirmBtn.pack(pady=7)
 
-
-apiKeyWindow.deiconify()
 
 # Prompt window packing
 promptWriteLabel.pack(pady=7)
@@ -106,6 +107,7 @@ searchAnswerLabelBorder.pack(pady=5)
 
 
 promptWindow.withdraw()
+apiKeyWindow.withdraw()
 
 
 doNothing = lambda: None
@@ -123,6 +125,15 @@ def usernameAndPassPrompt():
     print(uPassFromGUI)
     return [uNameFromGUI,uPassFromGUI]
 
+def apiKeyPrompt():
+    global apiKeyFromGUI
+    apiKeyEntered.set(value=False)
+    apiKeyWindow.deiconify()
+    root.wait_variable(apiKeyEntered)
+    return apiKeyFromGUI
+
+# TODO- Make function for button confirm
+
 def promptConfirmFunc():
     global uPassFromGUI, uNameFromGUI
     uNameFromGUI=uNameEntry.get()
@@ -137,6 +148,8 @@ def searchForAnswer(event=None):
     global answersDict
     try:searchAnswerLabel.configure(text=(result:= next((i["answer"] for i in answersDict if i["question_number"] == int(number)), None)))
     except:searchAnswerLabel.configure(text="Question number could not be found...")
+
+
 
 
 
@@ -316,7 +329,10 @@ def getAPIKey():
     except:
         print("No previous valid Gemini API Key was found...\n")
 
-        APIKey=str(input("Please read the instructions for getting an API key on the Github page, then paste your API key here:\t"))
+        #APIKey=str(input("Please read the instructions for getting an API key on the Github page, then paste your API key here:\t"))
+        
+        APIKey=apiKeyPrompt()
+        
 
         credFile=open("educakeCredentials.txt","w")
         uName=loginPayload["username"]
