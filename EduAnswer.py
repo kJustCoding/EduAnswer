@@ -67,15 +67,15 @@ apiKeyEntered=tk.BooleanVar(value=False)
 apiKeyEntrySect=tk.CTkFrame(apiKeyWindow, width=475, fg_color="transparent")
 keyWindowLabel=tk.CTkLabel(apiKeyWindow, text="Gemini API key (read Github page):", font=("default",15,"bold"))
 apiKeyLabel=tk.CTkLabel(apiKeyEntrySect, text_color="white", text="API Key   ")
-keyWindowsEntry=tk.CTkEntry(apiKeyEntrySect, text_color="white",fg_color="gray20",border_color="purple", border_width=2,width=130)
-keyWindowsPromptConfirmBtn=tk.CTkButton(apiKeyWindow,fg_color="gray20",border_color="purple",border_width=2,width=50,text="Confirm",hover_color="purple")
+keyWindowEntry=tk.CTkEntry(apiKeyEntrySect, text_color="white",fg_color="gray20",border_color="purple", border_width=2,width=130)
+keyWindowPromptConfirmBtn=tk.CTkButton(apiKeyWindow,fg_color="gray20",border_color="purple",border_width=2,width=50,text="Confirm",hover_color="purple")
 
 # API key prompt window packing
 keyWindowLabel.pack(pady=7)
 apiKeyEntrySect.pack()
 apiKeyLabel.pack(side="left",pady=7)
-keyWindowsEntry.pack(side="right",pady=7)
-keyWindowsPromptConfirmBtn.pack(pady=7)
+keyWindowEntry.pack(side="right",pady=7)
+keyWindowPromptConfirmBtn.pack(pady=7)
 
 
 # Prompt window packing
@@ -134,11 +134,20 @@ def apiKeyPrompt():
 
 # TODO- Make function for button confirm
 
+def apiKeyPromptConfirmFunc():
+    global apiKeyFromGUI
+
+    apiKeyFromGUI=keyWindowEntry.get()
+    apiKeyEntered.set(value=True)
+    apiKeyWindow.withdraw()
+
+keyWindowPromptConfirmBtn.configure(command=apiKeyPromptConfirmFunc)
+
 def promptConfirmFunc():
     global uPassFromGUI, uNameFromGUI
     uNameFromGUI=uNameEntry.get()
     uPassFromGUI=uPassEntry.get()
-    credsEntered.set(True)
+    credsEntered.set(value=True)
     promptWindow.withdraw()
 
 promptConfirmBtn.configure(command=promptConfirmFunc)
@@ -332,6 +341,7 @@ def getAPIKey():
         #APIKey=str(input("Please read the instructions for getting an API key on the Github page, then paste your API key here:\t"))
         
         APIKey=apiKeyPrompt()
+        apiKeyEntered.set(value=False)
         
 
         credFile=open("educakeCredentials.txt","w")
