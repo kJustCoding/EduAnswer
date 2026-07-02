@@ -409,29 +409,26 @@ def fetchQuizAnswers(verbose=False):
 
     responseAsJSON=urlResponse.json()
     
-    questions= responseAsJSON['attempt'][attemptID]['questionMap']
-
-    print(questions)
-
-    questionType=["","",""]
+    questions= responseAsJSON['attempt'][attemptID]['questionMap'] # Gets questions as JSON
 
     for i in questions.items():
 
         questionType=["","",""]
 
 
-        curQuestionText=i[1]['question']
-        curQuestionImage=i[1]['image']
-        curQuestionChoices="Free answer, no choices"
+        curQuestionText=i[1]['question'] # Assigning text of questions to var
+        curQuestionImage=i[1]['image'] # Assigning images of questions to var (assigns None if no image)
+        curQuestionChoices="Free Answer"
 
         isChoice=False
 
-        try:
+        try: # If there is a 'choice' field assign curQuestionChoices to it's val
             curQuestionChoices=i[1]['choices']
             isChoice=True
         except:
             isChoice=False
 
+        # Setting values for each index in questionType
 
         if curQuestionImage!=None:
             questionType[0]="Image"
@@ -445,19 +442,9 @@ def fetchQuizAnswers(verbose=False):
             questionType[1]="Free Answer"
             questionType[2]="None"
 
-        #print(questionType)
-        #geminiPayload.append([questionType,curQuestionText,curQuestionImage])
+        geminiPayload.append([questionType, curQuestionText, curQuestionImage])
 
-        print("Before append:", questionType, id(questionType))
-
-        geminiPayload.append([
-            questionType,
-            curQuestionText,
-            curQuestionImage
-        ])
-
-    print(f"\n\n\n\n\n{geminiPayload}")
-
+    # Creating the prompt to give to gemini
     geminiPrompt= f"""
         You are a GCSE and A-Level tutor.
 
@@ -495,23 +482,23 @@ def fetchQuizAnswers(verbose=False):
         """
 
     
+    # Get API Key, pretty self-explanatory
     APIKey=getAPIKey()
 
-    print(APIKey)
-    
+    # Create client
     geminiClient=genai.Client(api_key=APIKey)
+    
+    # Send prompt off to model
+    geminiClientResponse=geminiClient.models.generate_content(model="gemini-2.5-flash", contents=geminiPrompt)
 
-    geminiClientResponse=geminiClient.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=geminiPrompt
-    )
-
+    # Get response as text and remove some markdown BS
     geminiClientResponseAsText=(geminiClientResponse.text).replace("```json", "").replace("```","").strip()
 
     print(f"\n\n\n\n\n\n {geminiClientResponseAsText}")
-
-    answersDict=json.loads(geminiClientResponseAsText)
     
+    # Convert text to JSON/dict
+    answersDict=json.loads(geminiClientResponseAsText)
+
     cNumOfEntries=0
 
     for i in answersDict:
@@ -519,17 +506,6 @@ def fetchQuizAnswers(verbose=False):
         textForEntry=f"Q{i['question_number']}.) {i['answer']}"
         addEntryToGUI(textForEntry,cNumOfEntries)
     
-
-    #for i in range(1,20):
-        #addEntryToGUI(i,12)
-
-
-
-
-
-
-
-
 
 
 
