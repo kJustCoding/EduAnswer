@@ -1,4 +1,4 @@
-# EduAnswer V1.0.0- A revival of EduFetch
+# EduAnswer V1.0.1
 ### ℹ️ A Python-based GUI that answers and displays Educake answers
 
 
