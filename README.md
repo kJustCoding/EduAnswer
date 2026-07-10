@@ -4,7 +4,7 @@
 
 | ***Windows*** | ***Linux*** |
 | :---: | :---: |
-| ![Alt Text 1](images/EduAnswerOnWindows.png) | ![Working on it...](images/ScreenshotOnLinux.png) |
+| ![Alt Text 1](images/EduAnswerOnWindows.png) | ![Working on it...](images/EduAnswerOnLinux.png) |
 
 
 ***This repository contains 2 main versions of the code:***
