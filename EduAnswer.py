@@ -4,6 +4,8 @@ import os
 import customtkinter as tk
 from google import genai
 from google.genai import types
+from google.genai.errors import APIError
+import threading
 
 uPassFromGUI,uNameFromGUI,urlFromGUI,apiKeyFromGUI="","","",""
 
@@ -49,7 +51,7 @@ credsEntered=tk.BooleanVar(value=False)
 userNameSect=tk.CTkFrame(promptWindow,width=475,fg_color="transparent")
 userPassSect=tk.CTkFrame(promptWindow,width=475,fg_color="transparent")
 
-promptWriteLabel=tk.CTkLabel(promptWindow,text="Enter your username and password",font=("default",15,"bold"))
+promptWriteLabel=tk.CTkLabel(promptWindow,text="Enter your Educake login credentials",font=("default",15,"bold"))
 blankSpacePromptWindow=tk.CTkLabel(promptWindow,height=1,text="")
 uNameLabel=tk.CTkLabel(userNameSect,text="Username")
 uNameEntry=tk.CTkEntry(userNameSect,text_color="white",fg_color="gray20",border_color="purple",border_width=2,width=130)
@@ -354,7 +356,7 @@ def getAPIKey():
         
         try:
             response = geminiClient.models.generate_content(
-                model="gemini-3.5-flash",
+                model="gemini-3.1-flash-lite",
                 contents="Return the word 'hello'. Do not add anything else"
             )
 
@@ -392,24 +394,33 @@ def fetchQuizAnswers(verbose=False):
     headers['Authorization']= JWT_TOKEN
     headers['X-XSRF-TOKEN']= XSRF_TOKEN
 
-    # Get quiz URL
-    quizBrowserURL=getUrlFromGUI()
-    urlToGoTo=getQuizURL(quizBrowserURL)
+    # Get API Key, pretty self-explanatory
+    APIKey=getAPIKey()
 
-    attemptID= urlToGoTo.split("/")[-1]
+    while True:
+        # Get quiz URL
+        quizBrowserURL=getUrlFromGUI()
+        urlToGoTo=getQuizURL(quizBrowserURL)
 
-    # Send GET request to questionIDs URL
-    urlResponse=loginSession.get(urlToGoTo,headers=headers)
+        attemptID= urlToGoTo.split("/")[-1]
+
+        # Send GET request to questionIDs URL
+        urlResponse=loginSession.get(urlToGoTo,headers=headers)
 
 
-    if verbose:print(f"Got question IDs with code{urlResponse.status_code}, reason {urlResponse.reason}")
+        if verbose:print(f"Got question IDs with code{urlResponse.status_code}, reason {urlResponse.reason}")
 
-    # Records text of URL
-    responseAsText=urlResponse.text
+        # Records text of URL
+        responseAsText=urlResponse.text
 
-    responseAsJSON=urlResponse.json()
-    
-    questions= responseAsJSON['attempt'][attemptID]['questionMap'] # Gets questions as JSON
+        responseAsJSON=urlResponse.json()
+        
+        try:questions= responseAsJSON['attempt'][attemptID]['questionMap'];output("Quiz URL found, generating answers...");break # Gets questions as JSON
+
+        except:
+            output("Invalid quiz URL, please try again...")
+            continue
+
 
     for i in questions.items():
 
@@ -482,16 +493,31 @@ def fetchQuizAnswers(verbose=False):
         """
 
     
-    # Get API Key, pretty self-explanatory
-    APIKey=getAPIKey()
 
     # Create client
     geminiClient=genai.Client(api_key=APIKey)
-    
+
+    # An attempt at *helpful* UI
+    root.config(cursor="watch")
+
+
     # Send prompt off to model
-    geminiClientResponse=geminiClient.models.generate_content(model="gemini-2.5-flash", contents=geminiPrompt)
+    try:geminiClientResponse=geminiClient.models.generate_content(model="gemini-2.5-flash", contents=geminiPrompt)
+
+    except APIError as e:
+
+        if e.code == 503:
+            output("Server issues, try again later")
+        elif e.code == 429:
+            output("You have reached the daily limit, try again tomorrow")
+        else:
+            output("Just not feeling it rn, try restarting")
+
+        print(e.code)
+        return 0 
 
     # Get response as text and remove some markdown BS
+
     geminiClientResponseAsText=(geminiClientResponse.text).replace("```json", "").replace("```","").strip()
 
     print(f"\n\n\n\n\n\n {geminiClientResponseAsText}")
@@ -501,6 +527,10 @@ def fetchQuizAnswers(verbose=False):
 
     cNumOfEntries=0
 
+    output("Done. Please note the answers are not always correct")
+
+    root.config(cursor="")
+
     for i in answersDict:
         cNumOfEntries+=1
         textForEntry=f"Q{i['question_number']}.) {i['answer']}"
@@ -509,8 +539,14 @@ def fetchQuizAnswers(verbose=False):
 
 
 
-# Run program
-fetchQuizAnswers(verbose=True)
+# Run function in background thread cause apparently users dont like when their UI freezes :(
+workThread= threading.Thread(target=fetchQuizAnswers)
+
+# Dont endlessly sop resources like MS windows
+workThread.daemon = True
+
+# Run function
+workThread.start()
 
 # Continue GUI loop
 root.mainloop()
