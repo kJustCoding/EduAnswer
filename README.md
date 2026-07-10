@@ -78,6 +78,14 @@
 
 <br>
 
+## 📖 Setup Guide 
+### To start using EduAnswer once you have installed it, follow these steps
+***1.) When you open the program, you will be prompted to enter your Educake username and password. Enter them correctly, and press 'confirm'. This info is needed to access Educake quizzes***   **⚠️Your info does not leave your device!**
+
+***2.) Next, you will be prompted to enter your 'Google Gemini API key'. You can get this by going to https://aistudio.google.com/api-keys, logging in, then clicking 'Create API key' in the top left corner. Copy the API key and paste it into EduAnswer's prompt, then click confirm***
+
+
+
 ## ⚠️ Disclaimers
 ### <ins> ***I should not be held responsible for the actions of anyone that uses this program.*** </ins>
 #### This program was written as my attempt to understand, and show to others, how:
