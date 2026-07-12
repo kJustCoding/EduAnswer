@@ -32,31 +32,31 @@
 ## 🛠️ Requirements
 
 ### **Prerequisites *(for Python file)***
-- Python 3.12+
-- External PIP library 'curl_cffi' installed
-- External PIP library 'google-genai' installed
-- External PIP library 'customtkinter' installed
+- **Python 3.12+**
+- External **PIP** library ***'curl_cffi'*** installed
+- External **PIP** library ***'google-genai'*** installed
+- External **PIP** library ***'customtkinter'*** installed
 - Internet connection
 
 ### **Prerequisites *(for Application)***
 - Internet connection
 - Permissions to run file
-- A valid Google Gemini API key (explainded in installation)
+- A valid **Google Gemini** API key (explained in Installation Guide)
 
 ### **Program requirements**
 - URL to the quiz that you want to access (must not end in /true, remove the /true in that case)
-- Valid Educake username (can be the email assigned to Educake account)
-- Valid Educake password
+- Valid **Educake** username (can be the email assigned to **Educake** account)
+- Valid **Educake** password
 <br>
 
 ## 🚀 Installation Guide
 
-### **For application**
+### <ins>**For application**</ins>
 ***1. ) Click on green "Code" button on the homepage of this repository, then select "Download ZIP"***...
 
 <br>
 
-#### <ins>On Windows</ins>
+#### On Windows
 
 ***2. ) Navigate to "EduAnswer-main.zip" in File Explorer, right click and press "Extract all"***
 
@@ -66,7 +66,7 @@
 
 <br> 
 
-#### <ins>On Linux</ins>
+#### On Linux
 
 ***2. ) Navigate to "EduAnswer-main.zip", and extract with your tool of choice (either your file manager's built-in archiver or Unzip utility)***
 
@@ -80,7 +80,7 @@
 
 <br>
 
-### **For standalone Python file** 
+### <ins>**For standalone Python file**</ins> 
 
 ***1. ) Click on the green "Code" button on the homepage of this repo, and select "Download ZIP"***
   
@@ -105,7 +105,7 @@
 ``https://my.educake.co.uk/my-educake/quiz/196512757``  
 ***then just paste it into the field in EduAnswer, and press confirm. It will take some time to generate answers***
 
-
+<br>
 
 ## ⚠️ Disclaimers
 ### <ins> ***I should not be held responsible for the actions of anyone that uses this program.*** </ins>
@@ -124,7 +124,12 @@
 
 ### <ins>***There is no 'hacking' or illegality in this program***</ins> 
 
-#### This program does not edit Educake's servers, complete quizzes for you or perform any actions that could be deemed as 'hacking' in any way. All the answers stored on Educake are openly available to be accessed via their API, and this program merely bypasses the GUI to get the answers without logging questions as "incorrectly answered".
+#### This program does not edit Educake's servers, complete quizzes for you or perform any actions that could be deemed as 'hacking' in any way. All the questions stored on Educake are openly available to be accessed via their API, and this program merely bypasses the GUI to get the questions, and hand them over to **Google Gemini** to generate answers.
+<br>
+
+### <ins>***This programs's answers are not always correct***</ins> 
+
+#### Since EduAnswer generates answers to your quizzes using **Google Gemini**, the answers produced will not always be correct, and you may occasionally encounter that the program fails for no reason. In my testing, EduAnswer gets minimal text-based questions wrong, but has an 80% sucess rate with image based questions, typically resulting in quizzes that are 95% correct. Let's just call this a feature, cause realistically it helps to dodge suspicion or detection by Educake or your teachers ;)
 <br>
 
 ### ***Link to profile: https://github.com/kJustCoding***
