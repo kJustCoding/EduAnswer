@@ -29,7 +29,7 @@
 <br>
 
 
-## 🛠️  Requirements
+## 🛠️ Requirements
 
 ### **Prerequisites *(for Python file)***
 - Python 3.12+
