@@ -18,10 +18,10 @@
 <br>
 
 ## Table of Contents
-- [🛠️ Requirements](#requirements)
-- [🚀 Installation Guide](#installation-guide)
-- [📖 Setup Guide](#setup-guide)
-- [⚠️ Disclaimers](#disclaimers)
+- [🛠️ Requirements](#-requirements)
+- [🚀 Installation Guide](#-installation-guide)
+- [📖 Setup Guide](#-setup-guide)
+- [⚠️ Disclaimers](#-disclaimers)
   
   
 
