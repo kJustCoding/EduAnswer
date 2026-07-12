@@ -15,15 +15,19 @@
   * Windows
   * Linux *(Linux executable file provided, so you might want to convert it to a .desktop)*
   * MacOS ***(Coming soon 🔜)*** 
+
 <br>
 
 ## Table of Contents
-- [🛠️ Requirements](#-requirements)
-- [🚀 Installation Guide](#-installation-guide)
-- [📖 Setup Guide](#-setup-guide)
-- [⚠️ Disclaimers](#-disclaimers)
+
+<h3><a href="#-requirements">&emsp; 🛠️ Requirements</a></h3>
+<h3><a href="#-installation-guide">&emsp; 🚀 Installation Guide</a></h3>
+<h3><a href="#-setup-guide">&emsp; 📖 Setup Guide</a></h3>
+<h3><a href="#-disclaimers">&emsp; ⚠️ Disclaimers</a></h3>
   
-  
+<br>
+<br>
+
 
 ## 🛠️ Requirements
 
