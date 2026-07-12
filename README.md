@@ -17,6 +17,14 @@
   * MacOS ***(Coming soon 🔜)*** 
 <br>
 
+## Table of Contents
+- [🛠️ Requirements](#requirements)
+- [🚀 Installation Guide](#installation-guide)
+- [📖 Setup Guide](#setup-guide)
+- [⚠️ Disclaimers](#disclaimers)
+  
+  
+
 ## 🛠️ Requirements
 
 ### **Prerequisites *(for Python file)***
@@ -82,7 +90,16 @@
 ### To start using EduAnswer once you have installed it, follow these steps
 ***1.) When you open the program, you will be prompted to enter your Educake username and password. Enter them correctly, and press 'confirm'. This info is needed to access Educake quizzes***   **⚠️Your info does not leave your device!**
 
-***2.) Next, you will be prompted to enter your 'Google Gemini API key'. You can get this by going to https://aistudio.google.com/api-keys, logging in, then clicking 'Create API key' in the top left corner. Copy the API key and paste it into EduAnswer's prompt, then click confirm***
+***2.) Next, you will be prompted to enter your 'Google Gemini API key'. You can get this by going to https://aistudio.google.com/api-keys, logging in, then clicking 'Create API key' in the top left corner. Copy the API key and paste it into EduAnswer's prompt, then click confirm.***
+
+***3.) Now the setup is done, and you will not be prompted when you open the app again. To generate answers to a quiz, simply copy the url of an Educake quiz, for example:***  
+``https://my.educake.co.uk/my-educake/quiz/196512757``  
+
+***If your educake quiz has a ``/true`` at the end, like this:***  
+``https://my.educake.co.uk/my-educake/quiz/196512757/true``  
+***remove it, giving you something like:***  
+``https://my.educake.co.uk/my-educake/quiz/196512757``  
+***then just paste it into the field in EduAnswer, and press confirm. It will take some time to generate answers***
 
 
 
