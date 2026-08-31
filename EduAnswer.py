@@ -9,13 +9,15 @@ import threading
 
 uPassFromGUI,uNameFromGUI,urlFromGUI,apiKeyFromGUI="","","",""
 
+selectedModel="gemini-2.5-flash"
+
 #----------
 # FRONT-END
 #----------
 
 # Root window
 root=tk.CTk()
-root.geometry("400x620")
+root.geometry("400x650")#400x620
 root.title("EduAnswer v1.0.1")
 
 urlEntered=tk.BooleanVar(value=False)
@@ -39,6 +41,8 @@ searchAnswerLabel=tk.CTkLabel(searchAnswerLabelBorder,height=25,width=350,corner
 
 scrollableAreaBorder=tk.CTkFrame(root,width=369,height=354,border_color="purple",border_width=2,fg_color="purple")
 scrollableArea=tk.CTkScrollableFrame(scrollableAreaBorder,fg_color="gray20",width=365,height=350,scrollbar_button_hover_color="purple")
+
+modelSelectDropMenu= tk.CTkComboBox(root, width = 120, height=25, corner_radius=30, fg_color="gray20",dropdown_fg_color="gray20", border_color="purple", values=["Accurate","Quick","Alternate"])
 
 # Password and username prompt window
 
@@ -105,6 +109,7 @@ searchQuestionLabel.pack(side="left",padx=2)
 searchQuestionEntry.pack(side="right",padx=2)
 searchAnswerLabel.pack(padx=2,pady=2)
 searchAnswerLabelBorder.pack(pady=5)
+modelSelectDropMenu.pack(pady=5, padx=10, anchor="e")
 
 
 
@@ -281,6 +286,20 @@ def getQuizURL(browserURL):# Pretty self explanitory
 # FRONT-END
 #----------
 
+def modelSelectBtnFunc(selection: str):
+
+    global selectedModel
+
+    match selection:
+        case "Accurate":
+            selectedModel="gemini-2.5-flash"
+        case "Quick":
+            selectedModel="gemini-3.1-flash-lite"
+        case "Alternate":
+            selectedModel="gemini-3.5-flash"
+
+modelSelectDropMenu.configure(command=modelSelectBtnFunc)
+
 def rootConfirmBtn():
     global urlFromGUI
     urlFromGUI=inputEntry.get()
@@ -374,7 +393,7 @@ confirmButton.configure(command=rootConfirmBtn)
 #---------
 
 def fetchQuizAnswers(verbose=False):
-    global answersDict
+    global answersDict, selectedModel
 
 
     geminiPayload=[]
@@ -501,20 +520,24 @@ def fetchQuizAnswers(verbose=False):
     root.config(cursor="watch")
 
 
+    print(f"selectedModel is {selectedModel}")
     # Send prompt off to model
-    try:geminiClientResponse=geminiClient.models.generate_content(model="gemini-2.5-flash", contents=geminiPrompt)
+    try:geminiClientResponse=geminiClient.models.generate_content(model=selectedModel, contents=geminiPrompt)
 
     except APIError as e:
 
         if e.code == 503:
-            output("Server issues, try again later")
+            output("Model in high demand, use a different model or try again later")
         elif e.code == 429:
             output("You have reached the daily limit, try again tomorrow")
         else:
-            output("Just not feeling it rn, try restarting")
+            output("Just not feeling it rn, try restarting program")
 
         print(e.code)
+
+        print(e)
         return 0 
+
 
     # Get response as text and remove some markdown BS
 
