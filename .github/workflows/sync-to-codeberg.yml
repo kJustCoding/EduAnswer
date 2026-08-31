@@ -1,0 +1,20 @@
+name: Sync to Codeberg
+
+on:
+  push:
+    branches: [ main, master ] # Add any other branches you want to sync
+
+jobs:
+  codeberg-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetches all history for all branches and tags
+
+      - name: Push to Codeberg Mirror
+        uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url: "git@codeberg.org:${{ github.repository }}.git"
+          ssh_private_key: ${{ secrets.CODEBERG_TOKEN }}
