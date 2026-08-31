@@ -2,7 +2,7 @@ name: Sync to Codeberg
 
 on:
   push:
-    branches: [ main, master ] # Add any other branches you want to sync
+    branches: [ main, master ] # Change if your branch has a different name
 
 jobs:
   codeberg-sync:
@@ -11,10 +11,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Fetches all history for all branches and tags
+          fetch-depth: 0 # Fetches all branches and history
 
       - name: Push to Codeberg Mirror
-        uses: pixta-dev/repository-mirroring-action@v1
-        with:
-          target_repo_url: "git@codeberg.org:${{ github.repository }}.git"
-          ssh_private_key: ${{ secrets.CODEBERG_TOKEN }}
+        run: |
+          # 1. Configure git with a temporary URL containing your token
+          # We use your username "kJustCoding" and your saved secret token
+          git remote add codeberg https://kJustCoding:${{ secrets.CODEBERG_TOKEN }}@codeberg.org/kJustCoding/EduAnswer.git
+          
+          # 2. Force push all branches and tags to Codeberg
+          git push codeberg --prune --force --all
+          git push codeberg --prune --force --tags
