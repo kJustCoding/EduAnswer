@@ -2,3 +2,5 @@
 * text=auto
 
 images/ export-ignore
+
+.github/ export-ignore
