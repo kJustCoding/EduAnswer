@@ -52,7 +52,7 @@
 ## 🚀 Installation Guide
 
 ### <ins>**For application**</ins>
-***1. ) Click on green "Code" button on the homepage of this repository, then select "Download ZIP"***...
+***1. ) [Download the app](https://codeberg.org/kJustCoding/EduAnswer/archive/main.zip) (codeberg download link), or alternatively, click on green "Code" button on the homepage of this repository, then select "Download ZIP"***...
 
 <br>
 
@@ -60,7 +60,7 @@
 
 ***2. ) Navigate to "EduAnswer-main.zip" in File Explorer, right click and press "Extract all"***
 
-***3. ) Open the subsequent "EduAnswer-main" folder -> "EduAnswer-main" -> "Windows_Application" -> "EduAnswer.exe"***
+***3. ) Open the subsequent "EduAnswer-main" folder -> "eduanswer" -> "Windows_Application" -> "EduAnswer.exe"***
 
 ***4.) Double click to run, and click "Run" or "Run anyway" when security prompt comes up :tada:***
 
@@ -70,7 +70,7 @@
 
 ***2. ) Navigate to "EduAnswer-main.zip", and extract with your tool of choice (either your file manager's built-in archiver or Unzip utility)***
 
-***3. ) Open the subsequent "EduAnswer-main" folder -> "EduAnswer-main" -> "Linux_Application" -> "EduAnswer"***
+***3. ) Open the subsequent "EduAnswer-main" folder -> "eduanswer" -> "Linux_Application" -> "EduAnswer"***
 
 ***4. ) Copy file path of executable, then open terminal and run  `sudo chmod +x path/that/you/copied`***
 
