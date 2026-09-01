@@ -107,7 +107,7 @@ blankSpace1.pack()
 searchQuestionEntryAndButton.pack()
 searchQuestionLabel.pack(side="left",padx=2)
 searchQuestionEntry.pack(side="right",padx=2)
-searchAnswerLabel.pack(padx=2,pady=2)
+searchAnswerLabel.pack(padx=6,pady=5)
 searchAnswerLabelBorder.pack(pady=5)
 modelSelectDropMenu.pack(pady=5, padx=10, anchor="e")
 
