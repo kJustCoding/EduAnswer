@@ -17,6 +17,7 @@ selectedModel="gemini-2.5-flash"
 
 # Root window
 root=tk.CTk()
+
 root.geometry("400x650")#400x620
 root.title("EduAnswer v1.0.1")
 
@@ -107,7 +108,7 @@ blankSpace1.pack()
 searchQuestionEntryAndButton.pack()
 searchQuestionLabel.pack(side="left",padx=2)
 searchQuestionEntry.pack(side="right",padx=2)
-searchAnswerLabel.pack(padx=2,pady=2)
+searchAnswerLabel.pack(padx=6,pady=5)
 searchAnswerLabelBorder.pack(pady=5)
 modelSelectDropMenu.pack(pady=5, padx=10, anchor="e")
 
@@ -558,9 +559,11 @@ def fetchQuizAnswers(verbose=False):
         cNumOfEntries+=1
         textForEntry=f"Q{i['question_number']}.) {i['answer']}"
         addEntryToGUI(textForEntry,cNumOfEntries)
-    
 
-
+def killSelf(): # See usage line
+    root.quit()
+    root.destroy()
+    os._exit(0)
 
 # Run function in background thread cause apparently users dont like when their UI freezes :(
 workThread= threading.Thread(target=fetchQuizAnswers)
@@ -570,6 +573,9 @@ workThread.daemon = True
 
 # Run function
 workThread.start()
+
+# Force app to kill itself instead of linger in the depths of task manager (seems to be an issue with PyInstaller, idrk and idrc)
+root.protocol("WM_DELETE_WINDOW", killSelf)
 
 # Continue GUI loop
 root.mainloop()

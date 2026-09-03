@@ -52,29 +52,28 @@
 ## 🚀 Installation Guide
 
 ### <ins>**For application**</ins>
-***1. ) Click on green "Code" button on the homepage of this repository, then select "Download ZIP"***...
 
 <br>
 
 #### On Windows
 
-***2. ) Navigate to "EduAnswer-main.zip" in File Explorer, right click and press "Extract all"***
+***1. ) [Click to download the Windows app (codeberg link)](https://codeberg.org/kJustCoding/EduAnswer/raw/branch/main/Windows%20Application/EduAnswer.exe)***
 
-***3. ) Open the subsequent "EduAnswer-main" folder -> "EduAnswer-main" -> "Windows_Application" -> "EduAnswer.exe"***
+***2. ) Double click the installed .exe, and when the prompt comes up, uncheck 'Always ask before opening this file' and click 'Run'***
 
-***4.) Double click to run, and click "Run" or "Run anyway" when security prompt comes up :tada:***
+***3. ) Click 'Run Anyway' if any more prompts come up. Once the program is open, refer to the setup guide further down this page*** 
 
 <br> 
 
 #### On Linux
 
-***2. ) Navigate to "EduAnswer-main.zip", and extract with your tool of choice (either your file manager's built-in archiver or Unzip utility)***
+***1. ) [Click to download the Linux app (codeberg link)](https://codeberg.org/kJustCoding/EduAnswer/raw/branch/main/Linux%20Application/EduAnswer)***
 
-***3. ) Open the subsequent "EduAnswer-main" folder -> "EduAnswer-main" -> "Linux_Application" -> "EduAnswer"***
+***2. ) Copy the file path of the executable, then open the terminal and run  `sudo chmod +x path/that/you/copied`***
 
-***4. ) Copy file path of executable, then open terminal and run  `sudo chmod +x path/that/you/copied`***
+***3. ) Run file via your file manager or just paste the path to the file into the terminal and hit enter :tada:***
 
-***5.) Run file via your file manager or just paste the path to the file into the terminal and hit enter :tada:***
+***4. ) Optionally create a .desktop file so that you can access EduAnswer from your launcher (I'm too lazy to make one)
 
 <br>
 
