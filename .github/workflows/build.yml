@@ -12,6 +12,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   build:
@@ -98,3 +99,10 @@ jobs:
         else
           echo "Executables are already up to date."
         fi
+
+    - name: Trigger Codeberg Sync
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh workflow run "sync-to-codeberg" \
+          --ref "${{ github.ref_name }}"
