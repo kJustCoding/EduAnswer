@@ -3,7 +3,8 @@ name: Sync to Codeberg
 on:
   push:
     branches: [ main, master ] # Change if your branch has a different name
-
+  workflow_dispatch:
+    
 jobs:
   codeberg-sync:
     runs-on: ubuntu-latest
