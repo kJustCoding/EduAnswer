@@ -1,5 +1,7 @@
-# EduAnswer V1.0.1
+# EduAnswer V1.0.1 
 ### ℹ️ A Python-based GUI that answers and displays Educake answers
+***(Now with a MacOS version)***
+
 
 
 | ***Windows*** | ***Linux*** |
@@ -14,7 +16,7 @@
 
   * Windows
   * Linux *(Linux executable file provided, so you might want to convert it to a .desktop)*
-  * MacOS ***(Coming soon 🔜)*** 
+  * MacOS ***(Newly added)*** 
 
 <br>
 
@@ -59,11 +61,22 @@
 
 ***1. ) [Click to download the Windows app (codeberg link)](https://codeberg.org/kJustCoding/EduAnswer/raw/branch/main/Windows%20Application/EduAnswer.exe)***
 
-***2. ) Double click the installed .exe, and when the prompt comes up, uncheck 'Always ask before opening this file' and click 'Run'***
+***2. ) Double click the downloaded .exe, and when the prompt comes up, uncheck 'Always ask before opening this file' and click 'Run'***
 
-***3. ) Click 'Run Anyway' if any more prompts come up. Once the program is open, refer to the setup guide further down this page*** 
+***3. ) Click 'Run Anyway' if any more prompts come up. Once the program is open, refer to the setup guide further down this page :tada:*** 
 
 <br> 
+
+#### On MacOS
+
+***1. ) [Click to download the MacOS app (codeberg link)](https://codeberg.org/kJustCoding/EduAnswer/raw/branch/main/MacOS%20Application/EduAnswer)***
+
+***2. ) Double click the downloaded file***
+
+***3. ) Once the program is open, refer to the setup guide further down this page :tada:***
+
+
+<br>
 
 #### On Linux
 
@@ -73,7 +86,7 @@
 
 ***3. ) Run file via your file manager or just paste the path to the file into the terminal and hit enter :tada:***
 
-***4. ) Optionally create a .desktop file so that you can access EduAnswer from your launcher (I'm too lazy to make one)
+***4. ) Optionally create a .desktop file so that you can access EduAnswer from your launcher (I'm too lazy to make one)***
 
 <br>
 
