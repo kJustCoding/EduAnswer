@@ -1,0 +1,100 @@
+name: Compile Python Executable
+
+on:
+  push:
+    branches: [ main, master ]
+    paths-ignore:
+      - 'Linux Application/**'
+      - 'MacOS Application/**'
+      - 'Windows Application/**'
+  pull_request:
+    branches: [ main, master ]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller customtkinter google-genai curl_cffi
+
+    - name: Compile Executable
+      run: pyinstaller --onefile --noconsole EduAnswer.py
+
+    - name: Upload Executable Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: EduAnswer-${{ matrix.os }}
+        path: dist/EduAnswer*
+
+  commit:
+    name: Commit Executables to Repository
+    needs: build
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.ref_name }}
+
+    - name: Download Linux Executable
+      uses: actions/download-artifact@v4
+      with:
+        name: EduAnswer-ubuntu-latest
+        path: artifacts/linux
+
+    - name: Download macOS Executable
+      uses: actions/download-artifact@v4
+      with:
+        name: EduAnswer-macos-latest
+        path: artifacts/macos
+
+    - name: Download Windows Executable
+      uses: actions/download-artifact@v4
+      with:
+        name: EduAnswer-windows-latest
+        path: artifacts/windows
+
+    - name: Copy Executables
+      run: |
+        mkdir -p "Linux Application"
+        mkdir -p "MacOS Application"
+        mkdir -p "Windows Application"
+
+        cp artifacts/linux/EduAnswer "Linux Application/EduAnswer"
+        cp artifacts/macos/EduAnswer "MacOS Application/EduAnswer"
+        cp artifacts/windows/EduAnswer.exe "Windows Application/EduAnswer.exe"
+
+    - name: Commit and Push Executables
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+        git add "Linux Application/" "MacOS Application/" "Windows Application/"
+
+        if ! git diff --cached --quiet; then
+          git commit -m "Update compiled executables"
+          git push
+        else
+          echo "Executables are already up to date."
+        fi
