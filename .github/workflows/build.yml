@@ -47,14 +47,28 @@ jobs:
         pyinstaller --windowed --name EduAnswer EduAnswer.py
         tar -czf EduAnswer-macos.tar.gz -C dist EduAnswer.app
 
-    - name: Upload Executable Artifact
+    - name: Upload Linux Executable
+      if: runner.os == 'Linux'
       uses: actions/upload-artifact@v4
       with:
         name: EduAnswer-${{ matrix.os }}
-        path: |
-          dist/EduAnswer
-          dist/EduAnswer.exe
-          EduAnswer-macos.tar.gz
+        path: dist/EduAnswer
+        if-no-files-found: error
+
+    - name: Upload Windows Executable
+      if: runner.os == 'Windows'
+      uses: actions/upload-artifact@v4
+      with:
+        name: EduAnswer-${{ matrix.os }}
+        path: dist/EduAnswer.exe
+        if-no-files-found: error
+
+    - name: Upload macOS App Bundle
+      if: runner.os == 'macOS'
+      uses: actions/upload-artifact@v4
+      with:
+        name: EduAnswer-${{ matrix.os }}
+        path: EduAnswer-macos.tar.gz
         if-no-files-found: error
 
   commit:
