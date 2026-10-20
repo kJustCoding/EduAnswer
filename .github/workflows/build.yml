@@ -110,7 +110,9 @@ jobs:
         cp artifacts/linux/EduAnswer "Linux Application/EduAnswer"
 
         tar -xzf artifacts/macos/EduAnswer-macos.tar.gz -C artifacts/macos
-        cp -R artifacts/macos/EduAnswer.app "MacOS Application/EduAnswer.app"
+        cd artifacts/macos
+        zip -r -y ../../"MacOS Application"/EduAnswer-macOS.zip EduAnswer.app
+        cd ../..
 
         cp artifacts/windows/EduAnswer.exe "Windows Application/EduAnswer.exe"
 
