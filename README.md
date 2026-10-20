@@ -69,11 +69,11 @@
 
 #### On MacOS
 
-***1. ) [Click to download the MacOS app (codeberg link)](https://codeberg.org/kJustCoding/EduAnswer/raw/branch/main/MacOS%20Application/EduAnswer)***
+***1. ) [Click to download the MacOS app (codeberg link)](https://codeberg.org/kJustCoding/EduAnswer/raw/branch/main/MacOS%20Application/EduAnswer-macOS.zip)***
 
-***2. ) Double click the downloaded file***
+***2. ) Double click the downloaded file in Finder to extract it***
 
-***3. ) Once the program is open, refer to the setup guide further down this page :tada:***
+***3. ) Go into the extracted folder and double click the .app file, saying yes to any security prompts :tada:***
 
 
 <br>
