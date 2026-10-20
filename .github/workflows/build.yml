@@ -37,14 +37,25 @@ jobs:
         python -m pip install --upgrade pip
         pip install pyinstaller customtkinter google-genai curl_cffi
 
-    - name: Compile Executable
+    - name: Compile Linux and Windows Executables
+      if: runner.os != 'macOS'
       run: pyinstaller --onefile --noconsole EduAnswer.py
+
+    - name: Compile macOS App Bundle
+      if: runner.os == 'macOS'
+      run: |
+        pyinstaller --windowed --name EduAnswer EduAnswer.py
+        tar -czf EduAnswer-macos.tar.gz -C dist EduAnswer.app
 
     - name: Upload Executable Artifact
       uses: actions/upload-artifact@v4
       with:
         name: EduAnswer-${{ matrix.os }}
-        path: dist/EduAnswer*
+        path: |
+          dist/EduAnswer
+          dist/EduAnswer.exe
+          EduAnswer-macos.tar.gz
+        if-no-files-found: error
 
   commit:
     name: Commit Executables to Repository
@@ -83,7 +94,10 @@ jobs:
         mkdir -p "Windows Application"
 
         cp artifacts/linux/EduAnswer "Linux Application/EduAnswer"
-        cp artifacts/macos/EduAnswer "MacOS Application/EduAnswer"
+
+        tar -xzf artifacts/macos/EduAnswer-macos.tar.gz -C artifacts/macos
+        cp -R artifacts/macos/EduAnswer.app "MacOS Application/EduAnswer.app"
+
         cp artifacts/windows/EduAnswer.exe "Windows Application/EduAnswer.exe"
 
     - name: Commit and Push Executables
